@@ -1,0 +1,13 @@
+version: '3'
+services:
+  its_mt:
+    image: its_mt:latest
+    platform: linux/arm64
+    volumes:
+      - /Users/marctoiflhart/MT_VM_SHARED/:/shared
+    environment:
+      - DISPLAY=host.docker.internal:0
+      - QT_X11_NO_MITSMH=1
+    command: /bin/bash
+    stdin_open: true
+    tty: true
