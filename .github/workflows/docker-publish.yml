@@ -29,9 +29,21 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Multi-Arch Image
-        run: |
-          docker buildx build --platform linux/amd64,linux/arm64 \
-            -t ghcr.io/${{ github.repository_owner }}/its_mt:latest \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/its_mt:latest \
-            --push .
+      - name: Set up Docker metadata
+        id: dockermeta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ghcr.io/${{ github.repository_owner }}/its_mt
+            ${{ secrets.DOCKERHUB_USERNAME }}/its_mt
+
+      - name: Build, Cache and Push Multi-Arch Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.dockermeta.outputs.tags }}
+          labels: ${{ steps.dockermeta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
