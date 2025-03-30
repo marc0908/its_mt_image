@@ -53,27 +53,28 @@ kann folgendes Command verwendet werden:
 pactl set-default-sink {Ziel ID}
 ```
 
-## ℹ️ **GUI-Support für Windows- & macOS-Nutzer**  
-Falls du GUI-Anwendungen verwendest, benötigst du einen X-Server:  
+## ℹ️ **GUI-Support**  
+Falls du GUI-Anwendungen verwendest, kannst du folgendermaßen auf ein Desktop-Environment zugreifen.
 
-### 🖥️ **Windows (mit VcXsrv oder X410)**  
-- Installiere [VcXsrv](https://sourceforge.net/projects/vcxsrv/) oder [X410](https://x410.dev/)  
-- Starte den X-Server vor dem Container, damit grafische Programme funktionieren.  
+### 🦜 VNC Zugriff
 
-### 🍏 **macOS (mit XQuartz)**  
-- Installiere [XQuartz](https://www.xquartz.org/)  
-- Starte XQuartz und erlaube Verbindungen von Netzwerkclients in den Einstellungen  
-- Setze die DISPLAY-Variable mit:  
-  ```sh
-  export DISPLAY=:0
-  ```
-- Erlaube X11-Verbindungen für Docker:  
-  ```sh
-  xhost +localhost
-  ```
+Nach dem Start des Containers kann über einen VNC-Client (z.B. [TigerVNC](https://tigervnc.org/) oder [RealVNC](https://www.realvnc.com/)) auf die grafische Umgebung zugegriffen werden.
 
-Falls Probleme mit der Anzeige auftreten, überprüfe, ob dein X-Server läuft und die Access-Control korrekt gesetzt ist.  
+- **Adresse:** `localhost:5901`
+- **Passwort:** `studvnc`
 
+Falls Probleme auftreten, siehe den Abschnitt **"Häufige Fehler & Lösungen"**.
+
+## SSH-Zugriff 🖥️
+Nach dem Start des Containers kann auf diesen mittels SSH zugegriffen werden.
+
+- **Adresse:** `localhost:2222`
+- **User:** `stud`
+- **Passwort:** `stud`
+
+```sh
+ssh stud@localhost -p 2222
+```
 
 ## 📦 Installation & Nutzung  
 
@@ -85,7 +86,7 @@ Dies ist nur einmal erforderlich, um den Container anzulegen. Er wird mit einem 
 #### 🖥️ **Für ARM64-Systeme (Apple Silicon, Raspberry Pi, etc.)**  
 ```sh
 docker run -d --platform "linux/arm64" \
-    -v "/Users/marctoiflhart/MT_VM_SHARED:/shared" \
+    -v "{PFAD_HOST}:/shared" \
     --env="QT_X11_NO_MITSHM=1" \
     -e PULSE_SERVER=host.docker.internal \
     -v ~/.config/pulse/:/home/pulseaudio/.config/pulse \
@@ -97,7 +98,7 @@ docker run -d --platform "linux/arm64" \
 #### 🖥️ **Für AMD64-Systeme (Intel/AMD PCs, Laptops, Server)**  
 ```sh
 docker run -d --platform "linux/amd64" \
-    -v "/Users/marctoiflhart/MT_VM_SHARED:/shared" \
+    -v "{PFAD_HOST}:/shared" \
     --env="QT_X11_NO_MITSHM=1" \
     -e PULSE_SERVER=host.docker.internal \
     -v ~/.config/pulse/:/home/pulseaudio/.config/pulse \
@@ -190,6 +191,32 @@ Error: Can't open display:
    ```sh
    xhost +localhost
    ```
+
+
+### ❌ **Fehler: Kein VNC-Zugriff**  
+#### 📌 **Lösung:**  
+1. Stelle sicher, dass der Container läuft:
+   ```sh
+   docker ps
+   ```
+2. Falls `docker ps` den Container nicht anzeigt, starte ihn erneut:
+   ```sh
+   docker start its_mt
+   ```
+3. Falls das Problem weiterhin besteht, stelle sicher, dass Port 5901 nicht von einem anderen Prozess belegt ist.
+
+### ❌ **Fehler: Kein Audio in Pulseaudio**  
+#### 📌 **Lösung:**  
+1. Stelle sicher, dass Pulseaudio auf dem Host gestartet ist.
+2. Prüfe, ob `PULSE_SERVER` korrekt gesetzt ist:
+   ```sh
+   echo $PULSE_SERVER
+   ```
+   Falls die Variable leer ist, setze sie erneut:
+   ```sh
+   export PULSE_SERVER=host.docker.internal
+   ```
+3. Starte den Container neu und versuche es erneut.
 
 ---
 
