@@ -41,17 +41,39 @@ RUN apt update && apt install -y \
     zerofree \
     zip \
     dbus-x11 \ 
-    xserver-xephyr
+    xserver-xephyr \
+    openssh-server \
+    tightvncserver
 
+RUN mkdir /var/run/sshd
 
 # Benutzer "stud" erstellen mit passwort "stud"
 RUN useradd -m -s /bin/bash stud && \
     echo "stud:stud" | chpasswd && \
     usermod -aG sudo stud
 
+RUN ssh-keygen -A
+
+RUN echo 'stud ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/stud && \
+    chmod 0440 /etc/sudoers.d/stud
+
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
 VOLUME ["/shared"]
 
-USER stud
-WORKDIR /home/stud
+EXPOSE 22
+EXPOSE 5901
 
-ENV DISPLAY=host.docker.internal:0
+USER root
+
+RUN mkdir -p /home/stud/.vnc && \
+    echo "studvnc" | vncpasswd -f > /home/stud/.vnc/passwd && \
+    chmod 600 /home/stud/.vnc/passwd && \
+    chown -R stud:stud /home/stud/.vnc
+
+RUN echo 'export PULSE_SERVER=host.docker.internal' >> /home/stud/.bashrc
+
+CMD rm -f /tmp/.X11-unix/X1 /home/stud/.Xauthority /tmp/.X1-lock && \
+    /usr/sbin/sshd -D & \
+    su - stud -c "export DISPLAY=:1 && vncserver :1 -geometry 1920x1080 -depth 24" && \
+    tail -f /dev/null
