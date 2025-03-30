@@ -84,26 +84,26 @@ Dies ist nur einmal erforderlich, um den Container anzulegen. Er wird mit einem 
 
 #### 🖥️ **Für ARM64-Systeme (Apple Silicon, Raspberry Pi, etc.)**  
 ```sh
-docker run -it --platform "linux/arm64" \
-    -v "{PFAD_HOST}:/shared" \
-    -e DISPLAY=host.docker.internal:0 \
+docker run -d --platform "linux/arm64" \
+    -v "/Users/marctoiflhart/MT_VM_SHARED:/shared" \
     --env="QT_X11_NO_MITSHM=1" \
     -e PULSE_SERVER=host.docker.internal \
     -v ~/.config/pulse/:/home/pulseaudio/.config/pulse \
+    -p 5901:5901 -p 2222:22 \
     --name its_mt \
-    ghcr.io/marc0908/its_mt:latest /bin/bash
+    its_mt
 ```
 
 #### 🖥️ **Für AMD64-Systeme (Intel/AMD PCs, Laptops, Server)**  
 ```sh
-docker run -it --platform "linux/amd64" \
-    -v "{PFAD_HOST}:/shared" \
-    -e DISPLAY=host.docker.internal:0 \
+docker run -d --platform "linux/amd64" \
+    -v "/Users/marctoiflhart/MT_VM_SHARED:/shared" \
     --env="QT_X11_NO_MITSHM=1" \
     -e PULSE_SERVER=host.docker.internal \
     -v ~/.config/pulse/:/home/pulseaudio/.config/pulse \
-    --name its_mt \
-    ghcr.io/marc0908/its_mt:latest /bin/bash
+    -p 5901:5901 -p 2222:22 \
+    --name its_mt_vnc \
+    its_mt
 ```
 
 ### 3️⃣ **Container starten (nach dem ersten Erstellen)**  
