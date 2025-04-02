@@ -134,15 +134,18 @@ Mit VS Code kannst du direkt im Docker-Container entwickeln. Dazu benötigst du 
 ### 📥 **1. Erweiterungen installieren**  
 Installiere die folgenden VS Code Extensions:  
 - [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
-- [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 ### 🔗 **2. Mit Container verbinden**  
 1. Öffne VS Code.
-2. Klicke links auf das **Docker-Icon**.
+2. Klicke links auf das **Remote-Icon**.
 3. Rechtsklick auf `docker.io/marctoiflhart/its_mt:latest` .
 4. Falls der Container noch nicht gestartet wurde **"Start"**
-5. Läuft der Container kann VSC attached werden **"Attach Visual Studio Code"**
+5. Läuft der Container kann VSC attached werden **"Attach In Current Window"**
 6. VS Code öffnet den Container als Entwicklungsumgebung.
+7. <kbd>F1</kbd> um die Command-Palette aufzurufen
+8. `Dev Containers: Open Container Configuration File`
+9. Einen Eintrag hinzufügen: `remoteUser: "stud"`
 
 ## ⚠️ **Häufige Fehler & Lösungen**  
 
