@@ -10,6 +10,9 @@ Das ITS-MT Docker-Image basiert auf Debian 12 und ist an die VM angepasst, die i
 
 🔹 Freigegebene Verzeichnisse: Ein Shared Folder ermöglicht den einfachen Datenaustausch zwischen Host und Container.
 
+## 📋 ToDo:
+- Anleitung zum Erstellen eines Backups des Conatiners
+
 ## 🛠 Voraussetzungen  
 ### 1️⃣ **Docker installieren**  
 Falls noch nicht installiert, lade Docker herunter und installiere es:  
