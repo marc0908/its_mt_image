@@ -43,7 +43,8 @@ RUN apt update && apt install -y \
     dbus-x11 \ 
     xserver-xephyr \
     openssh-server \
-    tightvncserver
+    tightvncserver \
+    yuview
 
 RUN mkdir /var/run/sshd
 
