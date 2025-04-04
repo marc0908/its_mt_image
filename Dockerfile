@@ -1,5 +1,5 @@
 # Base image
-FROM --platform=linux/arm64 debian:12
+FROM debian:12
 
 # replaced epiphany-browser with firefox-esr
 # ffmpeg ffmpeg=7:5.1.4-0+deb12u1 not found -- installing ffmpeg!
