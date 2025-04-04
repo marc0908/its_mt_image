@@ -104,7 +104,7 @@ docker run -d --platform "linux/amd64" \
     ghcr.io/marc0908/its_mt:main
 ```
 
-#### 🖥️ **!ALTERNATIVE! ARM64-Image**  
+#### 🖥️ **ARM64-Image**  
 ```sh
 docker run -d --platform "linux/arm64" \
     -v "{PFAD_HOST}:/shared" \
