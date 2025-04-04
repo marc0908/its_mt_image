@@ -85,8 +85,10 @@ ssh stud@localhost -p 2222
 ### 2️⃣ **Container aus Image erstellen**  
 Dies ist nur einmal erforderlich, um den Container anzulegen. Er wird mit einem freigegebenen Ordner (`/shared`) verbunden.  
 
-**Auch unter ARM64 Systemen (Apple Silicon) kann und sollte der Container mit der linux/amd64 Platform gestartet werden.**
+**Auch unter ARM64 Systemen (Apple Silicon) kann der Container mit der linux/amd64 Platform gestartet werden.**
 MacOS verwendet dafür das ausreichend performante Rosetta2 um x86_64 zu emulieren.
+Für maximale **Kompatibilität** kann unter MacOS das AMD64 Image verwendet werden.
+Für maximale **Performance** sollte unter MacOS das ARM64 Image verwendet werden.
 
 🔹 **Ersetze `{PFAD_HOST}` mit dem absoluten Pfad auf deinem Host-System!**  
 
