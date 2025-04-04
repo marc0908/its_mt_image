@@ -12,6 +12,7 @@ Das ITS-MT Docker-Image basiert auf Debian 12 und ist an die VM angepasst, die i
 
 ## 📋 ToDo:
 - Anleitung zum Erstellen eines Backups des Conatiners
+- Unterscheidung der RUN-Befehle für Windows Linux und MacOS (Pulseaudio)
 
 ## 🛠 Voraussetzungen  
 ### 1️⃣ **Docker installieren**  
@@ -84,11 +85,14 @@ ssh stud@localhost -p 2222
 ### 2️⃣ **Container aus Image erstellen**  
 Dies ist nur einmal erforderlich, um den Container anzulegen. Er wird mit einem freigegebenen Ordner (`/shared`) verbunden.  
 
+**Auch unter ARM64 Systemen (Apple Silicon) kann und sollte der Container mit der linux/amd64 Platform gestartet werden.**
+MacOS verwendet dafür das ausreichend performante Rosetta2 um x86_64 zu emulieren.
+
 🔹 **Ersetze `{PFAD_HOST}` mit dem absoluten Pfad auf deinem Host-System!**  
 
-#### 🖥️ **Für ARM64-Systeme (Apple Silicon, Raspberry Pi, etc.)**  
+#### 🖥️ **AMD64-Image**  
 ```sh
-docker run -d --platform "linux/arm64" \
+docker run -d --platform "linux/amd64" \
     -v "{PFAD_HOST}:/shared" \
     --env="QT_X11_NO_MITSHM=1" \
     -e PULSE_SERVER=host.docker.internal \
@@ -98,15 +102,15 @@ docker run -d --platform "linux/arm64" \
     ghcr.io/marc0908/its_mt:main
 ```
 
-#### 🖥️ **Für AMD64-Systeme (Intel/AMD PCs, Laptops, Server)**  
+#### 🖥️ **!ALTERNATIVE! ARM64-Image**  
 ```sh
-docker run -d --platform "linux/amd64" \
+docker run -d --platform "linux/arm64" \
     -v "{PFAD_HOST}:/shared" \
     --env="QT_X11_NO_MITSHM=1" \
     -e PULSE_SERVER=host.docker.internal \
     -v ~/.config/pulse/:/home/pulseaudio/.config/pulse \
     -p 5901:5901 -p 2222:22 \
-    --name its_mt_vnc \
+    --name its_mt \
     ghcr.io/marc0908/its_mt:main
 ```
 
