@@ -46,6 +46,12 @@ RUN apt update && apt install -y \
     tightvncserver \
     yuview
 
+RUN dpkg --add-architecture i386
+
+RUN apt update && apt install -y \
+    libc6:i386 \
+    libstdc++6:i386
+
 RUN mkdir /var/run/sshd
 
 # Benutzer "stud" erstellen mit passwort "stud"
