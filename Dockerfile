@@ -44,7 +44,8 @@ RUN apt update && apt install -y \
     xserver-xephyr \
     openssh-server \
     tightvncserver \
-    yuview
+    yuview \
+    x264
 
 RUN dpkg --add-architecture i386
 
